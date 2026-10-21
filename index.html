@@ -1,148 +1,464 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <title>MEDLAB Championship Arena</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #10264b;
-      text-align: center;
-    }
-    header {
-      background: #071d49;
-      color: white;
-      padding: 45px 18px;
-    }
-    h1 { margin-bottom: 8px; }
-    .gold { color: #f5bd42; }
-    main { padding: 30px 18px; }
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      margin: 18px auto;
-      max-width: 450px;
-      box-shadow: 0 4px 15px #0001;
-    }
-    button {
-      background: #0754ba;
-      color: white;
-      border: none;
-      border-radius: 9px;
-      padding: 14px 25px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .option {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      background: #e8eef9;
-      color: #10264b;
-    }
-    footer {
-      padding: 20px;
-      background: #071d49;
-      color: white;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDLAB Championship Arena</title>
+<style>
+:root {
+  --navy: #071d49;
+  --blue: #0754ba;
+  --gold: #f5bd42;
+  --bg: #f1f5f9;
+  --green: #137547;
+  --red: #b42318;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--navy);
+}
+header {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 30px 15px;
+}
+header h1 { font-size: 25px; margin: 8px 0; }
+header p { color: var(--gold); margin-bottom: 0; }
+main {
+  width: 100%;
+  max-width: 620px;
+  margin: auto;
+  padding: 20px 14px 35px;
+}
+.card {
+  background: white;
+  padding: 22px;
+  margin: 16px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px #0000000d;
+}
+h2 { margin-top: 0; }
+label {
+  display: block;
+  font-weight: bold;
+  margin: 16px 0 7px;
+}
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #bdc9da;
+  border-radius: 9px;
+  font-size: 16px;
+}
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.primary {
+  background: var(--blue);
+  color: white;
+  width: 100%;
+  margin-top: 18px;
+}
+.option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #edf2fa;
+  color: var(--navy);
+  margin: 10px 0;
+  border: 2px solid transparent;
+}
+.option:disabled { opacity: 1; cursor: default; }
+.option:focus { border-color: var(--blue); }
+.option.correct {
+  background: #e4f6eb;
+  border-color: var(--green);
+}
+.option.wrong {
+  background: #fff0ee;
+  border-color: var(--red);
+}
+.muted { color: #5d6b80; line-height: 1.6; }
+.gold { color: #a36d00; }
+#feedback {
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 18px;
+  line-height: 1.65;
+}
+.hidden { display: none !important; }
+.progress {
+  height: 8px;
+  background: #e0e7f0;
+  border-radius: 9px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width .2s;
+}
+.score {
+  font-size: 42px;
+  font-weight: bold;
+  color: var(--blue);
+  text-align: center;
+}
+footer {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 22px 10px;
+}
+small { line-height: 1.6; }
+</style>
 </head>
 <body>
-  <header>
-    <h1>🏆 MEDLAB CHAMPIONSHIP ARENA</h1>
-    <p class="gold">Where Knowledge Meets Excellence</p>
-  </header>
 
-  <main>
-    <section class="card" id="welcome">
-      <h2>Welcome, Future Champion!</h2>
-      <p>Test your medical laboratory knowledge.</p>
-      <button onclick="startQuiz()">Start Quiz</button>
-    </section>
+<header>
+  <div style="font-size:35px">🏆</div>
+  <h1>MEDLAB CHAMPIONSHIP ARENA</h1>
+  <p>Where Knowledge Meets Excellence</p>
+  <small>LEARN • COMPETE • ACHIEVE</small>
+</header>
 
-    <section class="card" id="quiz"
-             style="display:none">
-      <h2>Medical Laboratory Challenge</h2>
-      <p id="question"></p>
-      <div id="options"></div>
-      <p id="feedback"></p>
-    </section>
+<main>
+  <section class="card" id="welcome">
+    <h2>Welcome, Future Champion!</h2>
+    <p class="muted">
+      Build your medical laboratory knowledge through
+      interactive challenges and detailed explanations.
+    </p>
 
-    <section class="card" id="result"
-             style="display:none">
-      <h2>Challenge Completed!</h2>
-      <p id="score"></p>
-      <button onclick="startQuiz()">Try Again</button>
-    </section>
-  </main>
+    <label for="studentName">Full Name</label>
+    <input id="studentName" autocomplete="name"
+           placeholder="Enter your full name">
 
-  <footer>
-    MCA | Learn • Compete • Achieve
-  </footer>
+    <label for="schoolName">Institution / School</label>
+    <input id="schoolName" autocomplete="organization"
+           placeholder="Enter your school">
 
-  <script>
-    const questions = [
+    <button class="primary" onclick="startQuiz()">
+      Continue to Challenge
+    </button>
+    <p class="muted">
+      Educational practice mode. Your details are used
+      only during this session and are not sent to a server.
+    </p>
+  </section>
+
+  <section class="card hidden" id="quiz">
+    <p id="candidate" class="muted"></p>
+    <p id="questionCount" class="gold"></p>
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <div id="feedback" class="hidden" aria-live="polite"></div>
+    <button class="primary hidden" id="nextBtn"
+            onclick="nextQuestion()">Next Question</button>
+  </section>
+
+  <section class="card hidden" id="result">
+    <h2>Challenge Completed!</h2>
+    <p id="resultName" class="muted"></p>
+    <div class="score" id="score"></div>
+    <p id="summary" style="text-align:center"></p>
+    <p class="muted" id="encouragement"></p>
+    <button class="primary" onclick="restart()">Try Again</button>
+  </section>
+</main>
+
+<footer>
+  <strong>MCA</strong><br>
+  Learn • Compete • Achieve
+</footer>
+
+<script>
+const questions = [
+  {
+    q: "Which anticoagulant is commonly used for a complete blood count (CBC)?",
+    a: [
       {
-        q: "Which anticoagulant is commonly used for CBC?",
-        a: ["EDTA", "Sodium fluoride", "Heparin"],
-        correct: 0
+        text: "Sodium fluoride",
+        why: "It is commonly used to help preserve glucose in blood collection tubes, often with another anticoagulant."
       },
       {
-        q: "Which stain differentiates Gram-positive and Gram-negative bacteria?",
-        a: ["Leishman", "Gram stain", "India ink"],
-        correct: 1
+        text: "Heparin",
+        why: "Heparin is used for certain plasma tests, but it is not the routine first choice for a standard CBC."
       },
       {
-        q: "Which organ produces most plasma proteins?",
-        a: ["Kidney", "Spleen", "Liver"],
-        correct: 2
+        text: "EDTA",
+        why: "EDTA binds calcium and helps preserve blood cell morphology. It is the routine anticoagulant for CBC testing."
+      },
+      {
+        text: "Sodium citrate",
+        why: "Sodium citrate is commonly used for coagulation tests such as PT and APTT."
       }
-    ];
+    ],
+    correct: 2,
+    explanation: "EDTA chelates calcium ions and prevents clotting. It is commonly used for CBC because it helps preserve blood cells for counting and examination."
+  },
+  {
+    q: "Which staining method is used to differentiate Gram-positive from Gram-negative bacteria?",
+    a: [
+      {
+        text: "Leishman stain",
+        why: "Leishman stain is mainly used to examine blood cells and blood films."
+      },
+      {
+        text: "Gram stain",
+        why: "Gram staining differentiates bacteria by differences in their cell wall properties and staining response."
+      },
+      {
+        text: "Ziehl-Neelsen stain",
+        why: "This stain is used to detect acid-fast organisms, including many mycobacteria."
+      },
+      {
+        text: "India ink",
+        why: "India ink is a negative staining method historically used to demonstrate capsules, such as those of Cryptococcus in suitable specimens."
+      }
+    ],
+    correct: 1,
+    explanation: "Gram-positive bacteria generally retain the crystal violet-iodine complex and appear purple. Gram-negative bacteria are decolorized and take up the counterstain, appearing pink or red."
+  },
+  {
+    q: "Which organ produces most circulating plasma proteins, including albumin?",
+    a: [
+      {
+        text: "Kidney",
+        why: "The kidneys filter blood and produce certain hormones, but they do not produce most circulating plasma proteins."
+      },
+      {
+        text: "Spleen",
+        why: "The spleen helps filter blood and supports immune functions, but it is not the main source of albumin."
+      },
+      {
+        text: "Liver",
+        why: "The liver synthesizes most plasma proteins, including albumin and many coagulation factors."
+      },
+      {
+        text: "Pancreas",
+        why: "The pancreas produces digestive enzymes and hormones such as insulin, not most plasma proteins."
+      }
+    ],
+    correct: 2,
+    explanation: "The liver is the major site of synthesis for albumin and many other plasma proteins. Albumin helps maintain plasma oncotic pressure and transports various substances."
+  },
+  {
+    q: "Which specimen is commonly used for a routine malaria blood film?",
+    a: [
+      {
+        text: "Whole blood",
+        why: "Whole blood collected appropriately can be used to prepare thick and thin blood films for malaria microscopy."
+      },
+      {
+        text: "Urine",
+        why: "Urine is not the routine specimen for malaria parasite microscopy."
+      },
+      {
+        text: "Sputum",
+        why: "Sputum is mainly used to investigate respiratory disease, not routine malaria microscopy."
+      },
+      {
+        text: "Cerebrospinal fluid",
+        why: "CSF is used for investigations of the central nervous system and is not the routine specimen for malaria blood films."
+      }
+    ],
+    correct: 0,
+    explanation: "A blood specimen is used to prepare thick and thin films. Thick films help detect parasites; thin films help assess species and parasite morphology. Diagnosis and treatment decisions should follow current clinical guidance."
+  },
+  {
+    q: "Which anticoagulant is commonly used in blood collection tubes for PT and APTT testing?",
+    a: [
+      {
+        text: "EDTA",
+        why: "EDTA is commonly used for hematology tests such as CBC, not routine PT and APTT testing."
+      },
+      {
+        text: "Lithium heparin",
+        why: "Lithium heparin is used for certain chemistry tests, but it is not the routine anticoagulant for PT and APTT."
+      },
+      {
+        text: "Sodium citrate",
+        why: "Sodium citrate binds calcium reversibly and is the routine anticoagulant for many coagulation tests."
+      },
+      {
+        text: "Sodium fluoride alone",
+        why: "Sodium fluoride is primarily used to help preserve glucose; it is not the routine anticoagulant for PT and APTT."
+      }
+    ],
+    correct: 2,
+    explanation: "Sodium citrate is commonly used for coagulation studies because it binds calcium reversibly. Correct tube filling and specimen handling are essential for reliable results."
+  }
+];
 
-    let current = 0;
-    let points = 0;
+let current = 0;
+let points = 0;
+let answered = 0;
+let locked = false;
+let missedTopics = [];
 
-    function startQuiz() {
-      current = 0;
-      points = 0;
-      document.getElementById("welcome").style.display = "none";
-      document.getElementById("result").style.display = "none";
-      document.getElementById("quiz").style.display = "block";
-      showQuestion();
-    }
+function startQuiz() {
+  const name = document.getElementById("studentName").value.trim();
+  const school = document.getElementById("schoolName").value.trim();
 
-    function showQuestion() {
-      const item = questions[current];
-      document.getElementById("question").textContent = item.q;
-      document.getElementById("feedback").textContent = "";
-      const area = document.getElementById("options");
-      area.innerHTML = "";
+  if (!name || !school) {
+    alert("Please enter your full name and institution.");
+    return;
+  }
 
-      item.a.forEach((answer, index) => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.textContent = answer;
-        btn.onclick = () => {
-          if (index === item.correct) points++;
-          current++;
-          if (current < questions.length) {
-            showQuestion();
-          } else {
-            document.getElementById("quiz").style.display = "none";
-            document.getElementById("result").style.display = "block";
-            document.getElementById("score").textContent =
-              "Your score: " + points + "/" + questions.length;
-          }
-        };
-        area.appendChild(btn);
-      });
-    }
-  </script>
+  window.candidateName = name;
+  window.candidateSchool = school;
+  current = 0;
+  points = 0;
+  answered = 0;
+  missedTopics = [];
+
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("candidate").textContent =
+    name + " • " + school;
+
+  showQuestion();
+}
+
+function showQuestion() {
+  locked = false;
+  const item = questions[current];
+
+  document.getElementById("questionCount").textContent =
+    "QUESTION " + (current + 1) + " OF " + questions.length;
+  document.getElementById("progressBar").style.width =
+    (current / questions.length * 100) + "%";
+  document.getElementById("question").textContent = item.q;
+
+  const area = document.getElementById("options");
+  area.innerHTML = "";
+
+  item.a.forEach((answer, index) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = String.fromCharCode(65 + index) + ". " + answer.text;
+    btn.onclick = () => chooseAnswer(index, btn);
+    area.appendChild(btn);
+  });
+
+  document.getElementById("feedback").classList.add("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function chooseAnswer(index, button) {
+  if (locked) return;
+  locked = true;
+  answered++;
+
+  const item = questions[current];
+  const isCorrect = index === item.correct;
+  if (isCorrect) {
+    points++;
+    button.classList.add("correct");
+  } else {
+    button.classList.add("wrong");
+    missedTopics.push(current);
+  }
+
+  const buttons = document.querySelectorAll(".option");
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === item.correct) btn.classList.add("correct");
+  });
+
+  const feedback = document.getElementById("feedback");
+  feedback.classList.remove("hidden");
+
+  const heading = document.createElement("h3");
+  heading.textContent = isCorrect ? "✓ Correct Answer!" : "✗ Not Quite — Learn From It";
+  heading.style.color = isCorrect ? "#137547" : "#b42318";
+  feedback.appendChild(heading);
+
+  const answerLine = document.createElement("p");
+  answerLine.textContent =
+    "Correct answer: " + item.a[item.correct].text;
+  feedback.appendChild(answerLine);
+
+  const explanationTitle = document.createElement("strong");
+  explanationTitle.textContent = "Explanation";
+  feedback.appendChild(explanationTitle);
+
+  const explanation = document.createElement("p");
+  explanation.textContent = item.explanation;
+  feedback.appendChild(explanation);
+
+  const notesTitle = document.createElement("strong");
+  notesTitle.textContent = "Understanding every option";
+  feedback.appendChild(notesTitle);
+
+  const list = document.createElement("ul");
+  item.a.forEach((answer, i) => {
+    const li = document.createElement("li");
+    li.style.margin = "10px 0";
+    li.textContent =
+      answer.text + ": " + answer.why;
+    list.appendChild(li);
+  });
+  feedback.appendChild(list);
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+  document.getElementById("nextBtn").textContent =
+    current === questions.length - 1 ? "View My Results" : "Next Question";
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("progressBar").style.width = "100%";
+  document.getElementById("resultName").textContent =
+    window.candidateName + " • " + window.candidateSchool;
+  document.getElementById("score").textContent =
+    points + "/" + questions.length;
+  document.getElementById("summary").textContent =
+    "Correct: " + points + " | Incorrect: " +
+    (questions.length - points);
+
+  let message = "Keep practising. Every explanation is an opportunity to learn.";
+  if (points === questions.length) {
+    message = "Excellent work! You answered every question correctly.";
+  } else if (points >= 3) {
+    message = "Good effort! Review the explanations and keep improving.";
+  }
+  document.getElementById("encouragement").textContent = message;
+}
+
+function restart() {
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("welcome").classList.remove("hidden");
+}
+</script>
 </body>
 </html>
