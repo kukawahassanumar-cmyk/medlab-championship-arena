@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <title>MEDLAB Championship Arena</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #10264b;
+      text-align: center;
+    }
+    header {
+      background: #071d49;
+      color: white;
+      padding: 45px 18px;
+    }
+    h1 { margin-bottom: 8px; }
+    .gold { color: #f5bd42; }
+    main { padding: 30px 18px; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      margin: 18px auto;
+      max-width: 450px;
+      box-shadow: 0 4px 15px #0001;
+    }
+    button {
+      background: #0754ba;
+      color: white;
+      border: none;
+      border-radius: 9px;
+      padding: 14px 25px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .option {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      background: #e8eef9;
+      color: #10264b;
+    }
+    footer {
+      padding: 20px;
+      background: #071d49;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏆 MEDLAB CHAMPIONSHIP ARENA</h1>
+    <p class="gold">Where Knowledge Meets Excellence</p>
+  </header>
+
+  <main>
+    <section class="card" id="welcome">
+      <h2>Welcome, Future Champion!</h2>
+      <p>Test your medical laboratory knowledge.</p>
+      <button onclick="startQuiz()">Start Quiz</button>
+    </section>
+
+    <section class="card" id="quiz"
+             style="display:none">
+      <h2>Medical Laboratory Challenge</h2>
+      <p id="question"></p>
+      <div id="options"></div>
+      <p id="feedback"></p>
+    </section>
+
+    <section class="card" id="result"
+             style="display:none">
+      <h2>Challenge Completed!</h2>
+      <p id="score"></p>
+      <button onclick="startQuiz()">Try Again</button>
+    </section>
+  </main>
+
+  <footer>
+    MCA | Learn • Compete • Achieve
+  </footer>
+
+  <script>
+    const questions = [
+      {
+        q: "Which anticoagulant is commonly used for CBC?",
+        a: ["EDTA", "Sodium fluoride", "Heparin"],
+        correct: 0
+      },
+      {
+        q: "Which stain differentiates Gram-positive and Gram-negative bacteria?",
+        a: ["Leishman", "Gram stain", "India ink"],
+        correct: 1
+      },
+      {
+        q: "Which organ produces most plasma proteins?",
+        a: ["Kidney", "Spleen", "Liver"],
+        correct: 2
+      }
+    ];
+
+    let current = 0;
+    let points = 0;
+
+    function startQuiz() {
+      current = 0;
+      points = 0;
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const item = questions[current];
+      document.getElementById("question").textContent = item.q;
+      document.getElementById("feedback").textContent = "";
+      const area = document.getElementById("options");
+      area.innerHTML = "";
+
+      item.a.forEach((answer, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = answer;
+        btn.onclick = () => {
+          if (index === item.correct) points++;
+          current++;
+          if (current < questions.length) {
+            showQuestion();
+          } else {
+            document.getElementById("quiz").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            document.getElementById("score").textContent =
+              "Your score: " + points + "/" + questions.length;
+          }
+        };
+        area.appendChild(btn);
+      });
+    }
+  </script>
+</body>
+</html>
